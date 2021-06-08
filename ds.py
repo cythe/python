@@ -101,30 +101,36 @@ class commit_header(common_header):
         print(commit_str)
         flag = 0
         i = 0
-        print(commit_str)
         self.__temp_str = commit_str.split('\n') 
         for l in self.__temp_str:
+            print("lightspot:")
+            print(l)
             if (len(l.strip()) == 0):
                 i = i + 1
                 continue
             if (i == 0):
-                self.__commit_id = self.get_commit_id(l)
+                self.commit_id = self.get_commit_id(l)
+                print(self.commit_id)
                 i = i + 1
                 continue;
             if (i == 1):
-                self.__author,self.__email = self.get_author(l)
+                self.author= self.get_author(l)
+                print(self.author)
+                self.email = self.get_email(l)
+                print(self.email)
                 i = i + 1
                 continue
             if (i == 2):
-                self.__date = l.strip()
+                self.date = l.strip()
+                print(self.date)
                 i = i + 1
                 continue
             if (0 == (flag & 0x8)):
-                self.__subject = l.strip()
+                self.subject = l.strip()
                 flag |= 0x8;
                 i = i + 1
                 continue
-            self.__commit_log.append(l.strip())
+            self.commit_log.append(l.strip())
             i = i + 1
 
 

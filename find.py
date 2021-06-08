@@ -30,39 +30,38 @@ if (ret != 0):
 
 restr= 'commit \w{40}\n'
 
-file = open
-
 ret = get_commit_log("test mama ya ")
 buffer=''
 for a in ret:
     buffer += a
-print (buffer)
+print ("buffer = {}".format(buffer))
 commit_logs = re.finditer(restr, buffer, re.M|re.I|re.S)
 #commit_logs = re.split( restr, buffer, re.M|re.S)
 
 commit_list = []
 last_slice = 0
-print (commit_logs)
 
 for match in commit_logs:
     if(match.start()):
         print('start={}, end={}\n'.format(last_slice, match.start()))
         string=buffer[last_slice:match.start()]
-        #print('[' + string + ']')
+        print('[' + string + ']')
         last_slice = match.start()
         print('--------------')
-        #print(string)
+        print(string)
         print('==============')
         x = commit_header(string)
         x.fill_data(string)
+        print(x)
         commit_list.append(x)
-        print(commit_list)
     
-print('start={}, end={}\n'.format(last_slice, len(buffer)))
-#print('[' + buffer[last_slice:] + ']')
-print('++++++++++++++')
-commit_list.append(commit_header(buffer[last_slice:]))
 
-for x in commit_list:
-    print(x)
+print('start={}, end={}'.format(last_slice, len(buffer)))
+print('++++++++++++++++++++')
+string = buffer[last_slice:]
+x = commit_header(string)
+x.fill_data(string)
+print(x)
+commit_list.append(x)
 
+print(len(commit_list))
