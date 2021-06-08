@@ -14,8 +14,10 @@ def get_commit_log(subject):
     #if (ret != 0):
     #    print_c("sc_b_red", "[ERROR]: Your git repo maybe has some trouble. Please check!")
     #    exit_process()
+    cmd = 'git log --no-merges --grep="' + subject + '"' + ' 2>/dev/null'
     ret = os.popen(cmd)
-    print(ret)
+    for a in ret:
+        print(a)
 
 ret = os.system("git status > /dev/null 2>&1")
 if (ret != 0):
