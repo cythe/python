@@ -22,12 +22,15 @@ def get_commit_log(subject):
     ret = os.popen(cmd)
     return ret
 
+
 ret = os.system("git status > /dev/null 2>&1")
 if (ret != 0):
     print_c("sc_b_red", "[FATAL]: It's not a git directory.")
     exit_process()
 
 restr= 'commit \w{40}\n'
+
+file = open
 
 ret = get_commit_log("test mama ya ")
 buffer=''
@@ -50,7 +53,9 @@ for match in commit_logs:
         print('--------------')
         #print(string)
         print('==============')
-        commit_list.append(commit_header(string))
+        x = commit_header(string)
+        x.fill_data(string)
+        commit_list.append(x)
         print(commit_list)
     
 print('start={}, end={}\n'.format(last_slice, len(buffer)))
