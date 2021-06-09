@@ -21,6 +21,9 @@ def get_commit_log(subject):
     return ret
 
 
+def get_commit_log_from_file(subject):
+    return []
+
 # -- Get commit headers by commit subject
 def get_commit_headers(subject):
     buffer=''

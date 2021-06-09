@@ -1,0 +1,32 @@
+
+
+    def __init__(self, commit_str):
+        self.__temp_str.clear()
+        self.__commit_log=[]
+
+    def get_commit_id(self, s):
+        print('This is the for_commit_ID')
+        searchObj = re.search(r'', s, re.M|re.I)
+        if searchObj:
+            print ("searchObj.group() : ", searchObj.group())
+            __commit_id = searchObj.group(1)
+            print('__commit_id = [' + __commit_id + ']')
+            return __commit_id
+        else:
+            print ("Can't find __commit_id, exit!!")
+
+    def get_author(self, s):
+        print('This is the for_author')
+        searchObj = re.search( r'', s, re.M|re.I)
+        if searchObj:
+            #print ("searchObj.group() : ", searchObj.group())
+            #print ("searchObj.group() : ", searchObj.group(1))
+            #print ("searchObj.group() : ", searchObj.group(2))
+            __author = searchObj.group(1)
+            __email = searchObj.group(2)
+            print('__author = [' + __author + ']')
+            print('__email = [' + __email + ']')
+            return __author,__email
+        else:
+            print ("Can't find __author , exit!!")
+

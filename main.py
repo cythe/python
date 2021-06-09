@@ -12,8 +12,9 @@ def main(argv):
     #test_color()
     inputfile = '.'
     outputfile = ''
+    gitrange = ''
     try:
-        opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
+        opts, args = getopt.getopt(argv,"hi:o:s:",["ifile=","ofile=","range="])
     except getopt.GetoptError:
         print_fatal("main.py -i <inputfile> -o <outputfile>")
         sys.exit(2)
@@ -25,8 +26,15 @@ def main(argv):
             inputfile = arg
         elif opt in ("-o", "--ofile"):
             outputfile = arg
+        elif opt in ("-s", "--range"):
+            gitrange = arg
     print_info("Patches directory: ", inputfile)
     print_info("Log file location: ", outputfile)
+
+    if(gitrange):
+        cmd = "git whatchanged " + gitrange + " 1>changed.tmp 2>/dev/null"
+        print(cmd)
+        os.popen(cmd)
  
     cmd = "ls " + inputfile + "/*.patch 2>/dev/null | sort"
     patches = os.popen(cmd) # 列出文件夹下所有的目录与文件

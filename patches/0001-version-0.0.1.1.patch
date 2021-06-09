@@ -1,0 +1,124 @@
+From da89e68998ef359d1e3459c09b025766c562e048 Mon Sep 17 00:00:00 2001
+From: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
+Date: Wed, 9 Jun 2021 16:52:29 +0800
+Subject: [PATCH] version 0.0.1.1
+
+complete debug info
+
+Signed-off-by: Ruiqiang Hao <Ruiqiang.Hao@windriver.com>
+---
+ color.py | 14 ++++++++++++++
+ find.py  |  7 ++-----
+ main.py  | 13 +++++++------
+ 3 files changed, 23 insertions(+), 11 deletions(-)
+
+diff --git a/color.py b/color.py
+index f189bbe..970581b 100644
+--- a/color.py
++++ b/color.py
+@@ -17,6 +17,7 @@ switch = {  "sc_red"     :'\033[0;31m',
+             "sc_b_white" :'\033[1;37m',
+           }
+ 
++
+ def print_c(c, *s):
+     string = ''
+     head=switch.get(c, '\033[m')
+@@ -27,6 +28,19 @@ def print_c(c, *s):
+     string += tail
+     print(string)
+ 
++
++def print_error(*s):
++    print_c('sc_red', *s)
++
++def print_fatal(*s):
++    print_c('sc_b_red', *s)
++
++def print_debug(*s):
++    print_c('sc_white', *s)
++
++def print_info(*s):
++    print_c('sc_green', *s)
++
+ def test_color():
+     print_c("sc_red"     ,"sc_red"     )
+     print_c("sc_b_red"   ,"sc_b_red"   ) 
+diff --git a/find.py b/find.py
+index 831c699..cf9ac54 100755
+--- a/find.py
++++ b/find.py
+@@ -29,10 +29,8 @@ def get_commit_headers(subject):
+     ret = get_commit_log(subject)
+     for a in ret:
+         buffer += a
+-    #print ("buffer = {}".format(buffer))
+-
++    print ("buffer = {}".format(buffer))
+     commit_logs = re.finditer(restr, buffer, re.M|re.I|re.S)
+-    
+     for match in commit_logs:
+         if(match.start()):
+             #print('start={}, end={}\n'.format(last_slice, match.start()))
+@@ -46,15 +44,14 @@ def get_commit_headers(subject):
+             commit_list.append(x)
+     #print('start={}, end={}'.format(last_slice, len(buffer)))
+     #print('++++++++++++++++++++')
+-
+     string = buffer[last_slice:]
+     x = commit_header()
+     x.fill_data(string)
+     #print(x)
+     commit_list.append(x)
+-
+     return commit_list
+ 
++
+ def patch_to_patch_header(path):
+     file = open(path, mode='r', newline='\n')
+     buffer = file.read()
+diff --git a/main.py b/main.py
+index ae6efda..ebc58b5 100755
+--- a/main.py
++++ b/main.py
+@@ -15,30 +15,31 @@ def main(argv):
+     try:
+         opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
+     except getopt.GetoptError:
+-        print_c ("sc_b_red", "main.py -i <inputfile> -o <outputfile>")
++        print_fatal("main.py -i <inputfile> -o <outputfile>")
+         sys.exit(2)
+     for opt, arg in opts:
+         if opt == '-h':
+-            print_c ("sc_b_red", 'test.py -i <inputfile> -o <outputfile>')
++            print_info('test.py -i <inputfile> -o <outputfile>')
+             sys.exit()
+         elif opt in ("-i", "--ifile"):
+             inputfile = arg
+         elif opt in ("-o", "--ofile"):
+             outputfile = arg
+-    print_c ("sc_b_green", "Patches directory: ", inputfile)
+-    print_c ("sc_b_green", "Log file location: ", outputfile)
++    print_info("Patches directory: ", inputfile)
++    print_info("Log file location: ", outputfile)
+  
+     cmd = "ls " + inputfile + "/*.patch 2>/dev/null | sort"
+     patches = os.popen(cmd) # 列出文件夹下所有的目录与文件
+     for patch in patches:
+         file = patch.strip()
+         if (True != os.path.isfile(file)):
+-            print_c ("sc_b_red", "it's not a file [{}]".format(file))
++            print_fatal("it's not a file [{}]".format(file))
+             sys.exit(1)
+-        print_c ("sc_b_green", file)
++        print_debug(file)
+         ph = patch_to_patch_header(file)
+         print(ph)
+         chs = get_commit_headers(ph.subject)
++        print("There are {} commit_headers.".format(len(chs)))
+         for i in range(0, len(chs)):
+             print(chs[i])
+             
+-- 
+2.25.1
+

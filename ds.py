@@ -15,6 +15,18 @@ class common_header:
     hunts       = []
 
 
+def drop_sob(commit_log):
+    for i in range(0, len(commit_log)):
+        if (commit_log[i] == ''):
+            line = i;
+        obj = re.match("Signed\-off\-by: .*", commit_log[i])
+        if(obj):
+            break
+    line = len(commit_log) - line
+    while (line > 0):
+        print(commit_log.pop())
+        line = line - 1;
+
 
 class patch_header:
     commit_id   = ''    # bit 0
@@ -93,12 +105,10 @@ class patch_header:
             if (l.strip() == "---"):
                 break;
             self.commit_log.append(l.strip())
-        #line = 0;
-        #for i in range(0, len(self.commit_log)):
-        #    if (self.commit_log[i] == ''):
-        #        line = i;
-        #    re.match("Sighed\-off\-by: .*", self.commit_log)
-        #    if (self.commit_log[i]):
+        line = 0;
+        print(len(self.commit_log))
+        print(self.commit_log)
+        drop_sob(self.commit_log)
 
     def fill_data(self, commit_str):
         #print(commit_str)
@@ -187,9 +197,6 @@ class commit_header:
         i = 0
         self.temp_str = commit_str.split('\n') 
         for l in self.temp_str:
-            #if (len(l.strip()) == 0):
-            #    i = i + 1
-            #    continue
             if (i == 0):
                 self.get_commit_id(l)
                 i = i + 1
@@ -203,13 +210,18 @@ class commit_header:
                 self.date = l.strip()
                 i = i + 1
                 continue
-            if (0 == (flag & 0x8)):
+            if (i == 4):
                 self.subject = l.strip()
                 flag |= 0x8;
                 i = i + 1
                 continue
+            if (0 == (flag & 0x8) and len(l.strip()) == 0):
+                i = i + 1
+                continue
+
             self.commit_log.append(l.strip())
             i = i + 1
+        drop_sob(self.commit_log)
 
 
 """ --- End of class commit_header --- """
