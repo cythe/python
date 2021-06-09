@@ -17,6 +17,7 @@ switch = {  "sc_red"     :'\033[0;31m',
             "sc_b_white" :'\033[1;37m',
           }
 
+
 def print_c(c, *s):
     string = ''
     head=switch.get(c, '\033[m')
@@ -26,6 +27,19 @@ def print_c(c, *s):
         string += s[i]
     string += tail
     print(string)
+
+
+def print_error(*s):
+    print_c('sc_red', *s)
+
+def print_fatal(*s):
+    print_c('sc_b_red', *s)
+
+def print_debug(*s):
+    print_c('sc_white', *s)
+
+def print_info(*s):
+    print_c('sc_green', *s)
 
 def test_color():
     print_c("sc_red"     ,"sc_red"     )

@@ -29,10 +29,8 @@ def get_commit_headers(subject):
     ret = get_commit_log(subject)
     for a in ret:
         buffer += a
-    #print ("buffer = {}".format(buffer))
-
+    print ("buffer = {}".format(buffer))
     commit_logs = re.finditer(restr, buffer, re.M|re.I|re.S)
-    
     for match in commit_logs:
         if(match.start()):
             #print('start={}, end={}\n'.format(last_slice, match.start()))
@@ -46,14 +44,13 @@ def get_commit_headers(subject):
             commit_list.append(x)
     #print('start={}, end={}'.format(last_slice, len(buffer)))
     #print('++++++++++++++++++++')
-
     string = buffer[last_slice:]
     x = commit_header()
     x.fill_data(string)
     #print(x)
     commit_list.append(x)
-
     return commit_list
+
 
 def patch_to_patch_header(path):
     file = open(path, mode='r', newline='\n')

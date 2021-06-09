@@ -15,30 +15,31 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
     except getopt.GetoptError:
-        print_c ("sc_b_red", "main.py -i <inputfile> -o <outputfile>")
+        print_fatal("main.py -i <inputfile> -o <outputfile>")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print_c ("sc_b_red", 'test.py -i <inputfile> -o <outputfile>')
+            print_info('test.py -i <inputfile> -o <outputfile>')
             sys.exit()
         elif opt in ("-i", "--ifile"):
             inputfile = arg
         elif opt in ("-o", "--ofile"):
             outputfile = arg
-    print_c ("sc_b_green", "Patches directory: ", inputfile)
-    print_c ("sc_b_green", "Log file location: ", outputfile)
+    print_info("Patches directory: ", inputfile)
+    print_info("Log file location: ", outputfile)
  
     cmd = "ls " + inputfile + "/*.patch 2>/dev/null | sort"
     patches = os.popen(cmd) # 列出文件夹下所有的目录与文件
     for patch in patches:
         file = patch.strip()
         if (True != os.path.isfile(file)):
-            print_c ("sc_b_red", "it's not a file [{}]".format(file))
+            print_fatal("it's not a file [{}]".format(file))
             sys.exit(1)
-        print_c ("sc_b_green", file)
+        print_debug(file)
         ph = patch_to_patch_header(file)
         print(ph)
         chs = get_commit_headers(ph.subject)
+        print("There are {} commit_headers.".format(len(chs)))
         for i in range(0, len(chs)):
             print(chs[i])
             
