@@ -40,6 +40,8 @@ def main(argv):
         print(ph)
         chs = get_commit_headers(ph.subject)
         print("There are {} commit_headers.".format(len(chs)))
+        if (len(chs) == 0):
+            continue;
         for i in range(0, len(chs)):
             print(chs[i])
             

@@ -10,6 +10,7 @@ def exit_process():
     print_c("sc_b_green", "Bye Bye!")
     exit()
 
+
 def get_commit_log(subject):
     ret = os.system("git status > /dev/null 2>&1")
     if (ret != 0):
@@ -18,6 +19,7 @@ def get_commit_log(subject):
     cmd = 'git log --no-merges --grep="' + subject.strip() + '"' + ' 2>/dev/null'
     ret = os.popen(cmd)
     return ret
+
 
 # -- Get commit headers by commit subject
 def get_commit_headers(subject):
@@ -30,6 +32,8 @@ def get_commit_headers(subject):
     for a in ret:
         buffer += a
     print ("buffer = {}".format(buffer))
+    if (len(buffer.strip()) == 0):
+        return []
     commit_logs = re.finditer(restr, buffer, re.M|re.I|re.S)
     for match in commit_logs:
         if(match.start()):
@@ -59,4 +63,3 @@ def patch_to_patch_header(path):
     x.fill_data(buffer)
     file.close()
     return x
-

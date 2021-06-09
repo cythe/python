@@ -76,11 +76,17 @@ class patch_header:
 
     def get_commit_log(self, s):
         for l in s:
-            if (len(l.strip()) == 0):
-                continue
+            #if (len(l.strip()) == 0):
+            #    continue
             if (l.strip() == "---"):
                 break;
             self.commit_log.append(l.strip())
+        line = 0;
+        for i in range(0, len(self.commit_log)):
+            if (self.commit_log[i] == ''):
+                line = i;
+            re.match("Sighed\-off\-by: .*", self.commit_log)
+            if (self.commit_log[i])
 
     def fill_data(self, commit_str):
         #print(commit_str)
@@ -169,9 +175,9 @@ class commit_header:
         i = 0
         self.temp_str = commit_str.split('\n') 
         for l in self.temp_str:
-            if (len(l.strip()) == 0):
-                i = i + 1
-                continue
+            #if (len(l.strip()) == 0):
+            #    i = i + 1
+            #    continue
             if (i == 0):
                 self.get_commit_id(l)
                 i = i + 1
