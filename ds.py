@@ -4,6 +4,18 @@
 import re 
 from color import *
 
+class common_header:
+    commit_id   = ''    # bit 0
+    author      = ''    # bit 1
+    email       = ''    # bit 1
+    date        = ''    # bit 3
+    subject     = ''    # bit 4
+    temp_str    = []
+    commit_log  = []
+    hunts       = []
+
+
+
 class patch_header:
     commit_id   = ''    # bit 0
     author      = ''    # bit 1
@@ -81,12 +93,12 @@ class patch_header:
             if (l.strip() == "---"):
                 break;
             self.commit_log.append(l.strip())
-        line = 0;
-        for i in range(0, len(self.commit_log)):
-            if (self.commit_log[i] == ''):
-                line = i;
-            re.match("Sighed\-off\-by: .*", self.commit_log)
-            if (self.commit_log[i])
+        #line = 0;
+        #for i in range(0, len(self.commit_log)):
+        #    if (self.commit_log[i] == ''):
+        #        line = i;
+        #    re.match("Sighed\-off\-by: .*", self.commit_log)
+        #    if (self.commit_log[i]):
 
     def fill_data(self, commit_str):
         #print(commit_str)
