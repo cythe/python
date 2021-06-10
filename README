@@ -1,0 +1,26 @@
+#### README
+
+It's a garbage project, dreaming of reducing our unnecessary work.
+
+We need to do some preparatory work before running this script.
+
+1. We're going to put patches in a `directory`
+2. We need to know the `low kernel version` of our SDK, and which upstream branch is SDK development based on
+3. Of course, we also need to know which `high kernel version` we want to migrate patches to
+
+(Three familiar philosophical issues??)
+
+Then, we run our garbage script, and get a big chunk of output...
+
+Currently, just indicates which patch should be drop (maybe not exactly)
+
+#### Work log
+[x] 1. Base struct of stripts.
+[x] 2. For each patch, pick up a struct to descript it.
+[x] 3. Find commitlog similar with this patch in `high kernel version`.
+[ ] 4. Complete comparison function (just compare commit log).
+[ ] 5. Add hunt struct.
+[ ] 6. For each hunt, find the change log of it and do match.
+[ ] 7. Integrated comparative logic, make it a useful script (Not a junk or demo...).
+
+
