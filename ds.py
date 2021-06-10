@@ -4,17 +4,6 @@
 import re 
 from color import *
 
-class common_header:
-    commit_id   = ''    # bit 0
-    author      = ''    # bit 1
-    email       = ''    # bit 1
-    date        = ''    # bit 3
-    subject     = ''    # bit 4
-    temp_str    = []
-    commit_log  = []
-    hunts       = []
-
-
 def drop_sob(commit_log):
     for i in range(0, len(commit_log)):
         if (commit_log[i] == ''):
@@ -29,6 +18,7 @@ def drop_sob(commit_log):
 
 
 class patch_header:
+    path        = ''
     commit_id   = ''    # bit 0
     author      = ''    # bit 1
     email       = ''    # bit 1
@@ -38,18 +28,18 @@ class patch_header:
     commit_log  = []
     hunts       = []
     re_dic = {
-            "commit_id" :"From\s(\w{40}).*",
-            "author"    :"From:\s(.*)\s\<(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\>",
-            "email"     :"From:\s(.*)\s\<(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\>",
+            "commit_id" :"^From\s(\w{40}).*",
+            "author"    :"^From:\s(.*)\s\<(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\>",
             "date"      :"",
-            "subject"   :"Subject:\s\[(.*)\]\s(.*)",
+            "subject"   :"^Subject:\s\[(.*)\]\s(.*)",
             "error"     :"",
             }
 
-    def __init__(self):
+    def __init__(self, path):
         self.temp_str.clear()
         self.commit_log   =[]
         self.hunts        =[]
+        self.path         = path
 
     def __str__(self):
         print_c ("sc_b_blue", "commit_id: \t[{}]".format(self.commit_id))
@@ -91,7 +81,7 @@ class patch_header:
         self.author = self.re_search(restr, s, 1)
 
     def get_email(self, s):
-        restr = self.re_dic.get("email")
+        restr = self.re_dic.get("author")
         self.email = self.re_search(restr, s, 2)
 
     def get_subject(self, s):
@@ -133,11 +123,10 @@ class commit_header:
     commit_log  = []
     hunts       = []
     re_dic = {
-            "commit_id" :"commit\s(\w{40})",
-            "author"    :"Author:\s(.*)\s\<(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\>",
-            "email"     :"Author:\s(.*)\s\<(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\>",
+            "commit_id" :"^commit\s(\w{40})",
+            "author"    :"^Author:\s(.*)\s\<(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\>",
             "date"      :"",
-            "subject"   :"Subject:\s\[(.*)\]\s(.*)",
+            "subject"   :"^Subject:\s\[(.*)\]\s(.*)",
             "error"     :"",
             }
 
@@ -184,7 +173,7 @@ class commit_header:
         self.author = self.re_search(restr, s, 1)
 
     def get_email(self, s):
-        restr = self.re_dic.get("email")
+        restr = self.re_dic.get("author")
         self.email = self.re_search(restr, s, 2)
 
     def get_subject(self, s):
@@ -218,6 +207,9 @@ class commit_header:
             if (0 == (flag & 0x8) and len(l.strip()) == 0):
                 i = i + 1
                 continue
+            if (i == 3 or i == 5):
+                i += 1;
+                continue;
 
             self.commit_log.append(l.strip())
             i = i + 1

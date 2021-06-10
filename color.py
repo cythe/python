@@ -29,6 +29,21 @@ def print_c(c, *s):
     print(string)
 
 
+def print_cd(*s):
+    string = ''
+    tail='\033[m'
+    for i in range(0, len(s)):
+        head = switch.get(s[i])
+        if head:
+            string += head
+            continue;
+        else:
+            string += s[i]
+            continue;
+    string += tail
+    print(string)
+
+
 def print_error(*s):
     print_c('sc_red', *s)
 

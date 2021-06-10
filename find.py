@@ -24,6 +24,7 @@ def get_commit_log(subject):
 def get_commit_log_from_file(subject):
     return []
 
+
 # -- Get commit headers by commit subject
 def get_commit_headers(subject):
     buffer=''
@@ -62,7 +63,7 @@ def get_commit_headers(subject):
 def patch_to_patch_header(path):
     file = open(path, mode='r', newline='\n')
     buffer = file.read()
-    x = patch_header();
-    x.fill_data(buffer)
     file.close()
+    x = patch_header(path);
+    x.fill_data(buffer)
     return x

@@ -11,7 +11,7 @@ from find import get_commit_headers, patch_to_patch_header
 def main(argv):
     #test_color()
     inputfile = '.'
-    outputfile = ''
+    outputfile = ''    ## reverse
     gitrange = ''
     try:
         opts, args = getopt.getopt(argv,"hi:o:s:",["ifile=","ofile=","range="])
@@ -35,6 +35,7 @@ def main(argv):
         cmd = "git whatchanged " + gitrange + " 1>changed.tmp 2>/dev/null"
         print(cmd)
         os.popen(cmd)
+        # -- we should add a function to parse "changed.tmp"
  
     cmd = "ls " + inputfile + "/*.patch 2>/dev/null | sort"
     patches = os.popen(cmd) # 列出文件夹下所有的目录与文件
@@ -58,7 +59,6 @@ def main(argv):
         #ret = filter_hunt(ph, chs)
         #if (ret != -1):
         #    print_c (""find )
-
 
 
 if __name__ == "__main__":

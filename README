@@ -18,9 +18,16 @@ Currently, just indicates which patch should be drop (maybe not exactly)
 [x] 1. Base struct of stripts.
 [x] 2. For each patch, pick up a struct to descript it.
 [x] 3. Find commitlog similar with this patch in `high kernel version`.
-[ ] 4. Complete comparison function (just compare commit log).
+[x] 4. Complete comparison function (just compare commit log).
 [ ] 5. Add hunt struct.
 [ ] 6. For each hunt, find the change log of it and do match.
 [ ] 7. Integrated comparative logic, make it a useful script (Not a junk or demo...).
+[ ] 8. Call method in git source, maybe we can apply patches automaticly...
 
 
+#### Tu Cao
+1. python 和 C 最大的不同是C容易丢';', python容易丢':'.
+2. python 和 脚本语言的面向对象细节很模糊, 继承的访控属性相当难以理解...
+    不好用, 子类继承过来的变量都不知道谁是谁, 长的还一样.
+3. 类中包含list是个神仙坑, 默认是所有实例化对象公共的!! (@ ◇ @)
+4. 
