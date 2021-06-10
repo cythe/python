@@ -56,9 +56,7 @@ def main(argv):
             
         ret = filter_whole(ph, chs)
 
-        #ret = filter_hunt(ph, chs)
-        #if (ret != -1):
-        #    print_c (""find )
+        ret = filter_hunts(file, chs)
 
 
 if __name__ == "__main__":

@@ -30,6 +30,3 @@ def filter_whole(ph, chs):
         # -- do_some_thing with this patch --
         cmd = "mv " + ph.path + " maybedup/"
         os.popen(cmd)
-
-        
-        filter_hunts(ph, chs)

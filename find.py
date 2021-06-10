@@ -22,7 +22,7 @@ def get_commit_log(subject):
 
 
 def get_commit_log_from_file(subject):
-    return []
+    print_fatal ("Todo get_commit_log_from_file")
 
 
 # -- Get commit headers by commit subject

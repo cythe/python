@@ -32,6 +32,7 @@ class patch_header:
             "author"    :"^From:\s(.*)\s\<(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\>",
             "date"      :"",
             "subject"   :"^Subject:\s\[(.*)\]\s(.*)",
+            "hunt"      :r"diff\s--git a/.* b/.*",
             "error"     :"",
             }
 
@@ -62,7 +63,7 @@ class patch_header:
             print ("Can't find anything with pattern({})".format(restr))
 
     def re_search(self, restr, s, group):
-        #print("{}:{}".format(restr, s))
+        print("{}:{}".format(restr, s))
         searchObj = re.search(restr, s, re.M|re.I)
         if searchObj:
             #print ("searchObj.group() : ", searchObj.group())
@@ -100,8 +101,33 @@ class patch_header:
         print(self.commit_log)
         drop_sob(self.commit_log)
 
+    def get_hunts(self, s):
+        restr = self.re_dic.get("hunt")
+        h = diff_hunts()
+        self.temp_str = re.split(restr, s, re.S)
+        print(len(self.temp_str))
+        for i in range(1, len(self.temp_str)):
+            print(self.temp_str[i])
+            tempstr = self.temp_str[i].split("\n")
+            for l in tempstr:
+                h.mode = l
+                continue;
+                print("\n")
+
+
+        #i = 0
+        #while i < len(s):
+        #    h.afile = self.re_search(restr, s[i], 1)
+        #    h.bfile = self.re_search(restr, s[i], 2)
+        #    if h.afile and h.bfile:
+        #        print("afile = {} bfile = {}".format(h.afile, h.bfile))
+        #        self.hunts.append(h)
+        #    i += 1
+
+
     def fill_data(self, commit_str):
         #print(commit_str)
+        self.get_hunts(commit_str)
         self.temp_str = commit_str.split('\n') 
         #print(self.temp_str)
         self.get_commit_id(self.temp_str[0])
@@ -218,8 +244,12 @@ class commit_header:
 
 """ --- End of class commit_header --- """
 
-class hunt:
-    position = ''
+class diff_hunts:
+    afile = ''
+    bfile = ''
+    mode  = ''  # reverse
+    at_position = []
+    container = []
 
 """ --- End of class hunt --- """
 

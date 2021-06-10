@@ -118,7 +118,7 @@ index ae6efda..ebc58b5 100755
 +        print("There are {} commit_headers.".format(len(chs)))
          for i in range(0, len(chs)):
              print(chs[i])
-             
+
 -- 
 2.25.1
 
